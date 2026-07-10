@@ -94,19 +94,39 @@ export function PresenceCard() {
   const [hovered, setHovered] = useState(false)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const trackPointer = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     setMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top })
   }
 
   return (
+    // Pointer events so touch works: pressing the card summons your cursor
+    // and dragging moves it, releasing dismisses it. touch-action none keeps
+    // the drag from scrolling the page.
     <div
       ref={containerRef}
       className="relative h-full w-full overflow-hidden"
-      style={{ cursor: hovered ? 'none' : undefined }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onMouseMove={handleMouseMove}
+      style={{ cursor: hovered ? 'none' : undefined, touchAction: 'none' }}
+      onPointerEnter={(e) => {
+        if (e.pointerType === 'mouse') setHovered(true)
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === 'mouse') setHovered(false)
+      }}
+      onPointerDown={(e) => {
+        e.currentTarget.setPointerCapture(e.pointerId)
+        if (e.pointerType !== 'mouse') {
+          trackPointer(e)
+          setHovered(true)
+        }
+      }}
+      onPointerUp={(e) => {
+        if (e.pointerType !== 'mouse') setHovered(false)
+      }}
+      onPointerCancel={(e) => {
+        if (e.pointerType !== 'mouse') setHovered(false)
+      }}
+      onPointerMove={trackPointer}
     >
       {/* Stacked avatars — leftmost on top (0, -1, -2, …) */}
       <div className="absolute right-4 top-4 z-10 flex -space-x-0.5">

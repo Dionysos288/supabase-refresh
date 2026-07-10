@@ -268,7 +268,7 @@ export function PixelsVariant({ onYouChange }: LiveVariantProps) {
     }, TIMING.celebrate + TIMING.boardFade + 50)
   }
 
-  const paintAtPointer = (e: React.MouseEvent<HTMLDivElement>) => {
+  const paintAtPointer = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const c = Math.floor((e.clientX - rect.left - fit.ox) / fit.cell)
     const r = Math.floor((e.clientY - rect.top - fit.oy) / fit.cell)
@@ -428,10 +428,17 @@ export function PixelsVariant({ onYouChange }: LiveVariantProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reducedMotion])
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  // Pointer events (not mouse events) so touch works: on touch devices a
+  // finger drag paints continuously, with pointer capture keeping the
+  // stream alive even when the finger drifts off the panel edge.
+  const trackPointer = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     mouseX.set(e.clientX - rect.left)
     mouseY.set(e.clientY - rect.top)
+  }
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    trackPointer(e)
     if (drawing.current) paintAtPointer(e)
   }
 
@@ -441,20 +448,34 @@ export function PixelsVariant({ onYouChange }: LiveVariantProps) {
     <div
       ref={containerRef}
       className="absolute inset-0 select-none overflow-hidden"
-      style={{ cursor: youPresent ? 'none' : undefined }}
-      onMouseEnter={() => setPresence(true)}
-      onMouseLeave={() => {
+      // touch-action none: the browser must not turn paint drags into scrolls
+      style={{ cursor: youPresent ? 'none' : undefined, touchAction: 'none' }}
+      onPointerEnter={(e) => {
+        if (e.pointerType === 'mouse') setPresence(true)
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType !== 'mouse') return
         setPresence(false)
         drawing.current = false
       }}
-      onMouseMove={handleMouseMove}
-      onMouseDown={(e) => {
+      onPointerMove={handlePointerMove}
+      onPointerDown={(e) => {
         e.preventDefault()
+        e.currentTarget.setPointerCapture(e.pointerId)
         drawing.current = true
+        // Touch has no hover: presence (your cursor + outline) appears on
+        // touch-down and clears on lift
+        if (e.pointerType !== 'mouse') setPresence(true)
+        trackPointer(e)
         paintAtPointer(e)
       }}
-      onMouseUp={() => {
+      onPointerUp={(e) => {
         drawing.current = false
+        if (e.pointerType !== 'mouse') setPresence(false)
+      }}
+      onPointerCancel={(e) => {
+        drawing.current = false
+        if (e.pointerType !== 'mouse') setPresence(false)
       }}
     >
       {/* Cell grid backdrop — spans the full panel, aligned with the board cells */}

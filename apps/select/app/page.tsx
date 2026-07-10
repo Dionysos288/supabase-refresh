@@ -60,7 +60,10 @@ export default function SelectTicketPage() {
     // Disables transform-based motion for prefers-reduced-motion users while
     // keeping the opacity fades
     <MotionConfig reducedMotion="user">
-      <main className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24">
+      {/* Mobile locks to one static viewport (h-svh, no scroll) so the
+          ticket can be dragged with a finger without fighting the page;
+          sm+ keeps the roomier min-height layout */}
+      <main className="relative flex h-svh flex-col items-center justify-center overflow-hidden px-6 py-12 sm:h-auto sm:min-h-dvh sm:py-24">
         <DitherField />
         {/* soft falloff behind the ticket so it reads against the field */}
         <div
@@ -109,8 +112,15 @@ export default function SelectTicketPage() {
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 100, damping: 18, mass: 0.9 }}
-          className="relative z-10 w-full"
-          style={{ maxWidth: 340 }}
+          // Hold-and-drag the ticket anywhere; it springs back on release.
+          // touch-action none keeps the browser from claiming the gesture.
+          drag
+          dragSnapToOrigin
+          dragElastic={0.6}
+          dragTransition={{ bounceStiffness: 300, bounceDamping: 24 }}
+          whileDrag={{ scale: 1.03 }}
+          className="relative z-10 w-full cursor-grab active:cursor-grabbing"
+          style={{ maxWidth: 340, touchAction: 'none' }}
         >
           <Ticket
             variant={variant}
@@ -134,7 +144,8 @@ export default function SelectTicketPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="absolute bottom-0 left-0 z-20 flex w-full items-center justify-center p-6"
+          // hidden on mobile so the page fits exactly one viewport height
+          className="absolute bottom-0 left-0 z-20 hidden w-full items-center justify-center p-6 sm:flex"
         >
           <p className="rounded-md border border-paper/10 bg-[#0b0c0a]/70 px-3 py-1.5 text-center font-mono text-[9px] font-medium tracking-[0.18em] text-paper/80 backdrop-blur-sm sm:text-[10px] sm:tracking-[0.22em]">
             CURATED DAY OF TALKS BY SUPABASE

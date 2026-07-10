@@ -14,7 +14,9 @@ export function SpotlightQuote({ className, children }: Props) {
   const textRef = useRef<HTMLDivElement>(null)
   const [spot, setSpot] = useState<{ x: number; y: number } | null>(null)
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Hover-only effect: touch taps/scrolls must not flash the spotlight
+    if (e.pointerType !== 'mouse') return
     const rect = textRef.current?.getBoundingClientRect()
     if (!rect) return
     setSpot({ x: e.clientX - rect.left, y: e.clientY - rect.top })
@@ -29,8 +31,8 @@ export function SpotlightQuote({ className, children }: Props) {
     // doesn't cut off the instant the cursor leaves the text itself
     <div
       className="-m-16 p-16"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setSpot(null)}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={() => setSpot(null)}
     >
       <div ref={textRef} className={cn('relative', className)}>
         <div className="text-foreground-lighter">{children}</div>

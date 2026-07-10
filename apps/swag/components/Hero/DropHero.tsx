@@ -76,8 +76,9 @@ export function DropHero() {
   return (
     // Image + spec strip together fill exactly one viewport, so the
     // price ticker below stays out of the first impression
-    <section aria-labelledby="hero-heading" className="flex h-dvh min-h-[560px] flex-col">
-      <div className="relative min-h-0 w-full flex-1 overflow-hidden border-b border-border">
+
+    <section aria-labelledby="hero-heading" className="flex h-svh min-h-[560px] flex-col">
+      <div className="relative min-h-0 w-full flex-1 overflow-hidden border-b border-border bg-background">
         <CampaignImage added={chipAdded} onActivate={handleChipAdd} />
 
         {/* Overlaid copy — pointer-events off so the image stays clickable */}
@@ -276,7 +277,9 @@ function CampaignImage({ added, onActivate }: { added: boolean; onActivate: () =
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          // max-md zoom crops the studio lamp at the top of the photo out of
+          // the tall mobile frame; origin below center keeps the model in shot
+          className="object-cover object-center max-md:scale-[1.2] max-md:origin-[50%_65%]"
         />
       </motion.div>
 
