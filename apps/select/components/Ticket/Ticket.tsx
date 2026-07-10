@@ -165,10 +165,30 @@ export const Ticket = ({
       transition={{ duration: FLOAT.duration, repeat: Infinity, ease: 'easeInOut' }}
     >
       <motion.div
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+        // touch-action none: while a finger is on the ticket the browser
+        // must not claim the gesture for scrolling/rubber-banding
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', touchAction: 'none' }}
         whileHover={{ scale: TILT.hoverScale }}
         whileTap={{ scale: TILT.tapScale }}
         transition={TILT.settle}
+        // Touch equivalent of hover: press and move a finger over the card
+        // to lean it and steer the torch beam; lifting settles it back.
+        // Mouse pointers keep the existing hover handlers on the ASCII area.
+        onPointerDown={(e) => {
+          if (e.pointerType === 'mouse') return
+          e.currentTarget.setPointerCapture(e.pointerId)
+          handlePointerMove(e)
+        }}
+        onPointerMove={(e) => {
+          if (e.pointerType === 'mouse') return
+          handlePointerMove(e)
+        }}
+        onPointerUp={(e) => {
+          if (e.pointerType !== 'mouse') handlePointerLeave()
+        }}
+        onPointerCancel={(e) => {
+          if (e.pointerType !== 'mouse') handlePointerLeave()
+        }}
         className="group will-change-transform"
       >
         <div ref={captureRef} className="ticket-shadow relative">

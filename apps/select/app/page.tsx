@@ -112,15 +112,9 @@ export default function SelectTicketPage() {
           initial={{ opacity: 0, y: 48 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 100, damping: 18, mass: 0.9 }}
-          // Hold-and-drag the ticket anywhere; it springs back on release.
-          // touch-action none keeps the browser from claiming the gesture.
-          drag
-          dragSnapToOrigin
-          dragElastic={0.6}
-          dragTransition={{ bounceStiffness: 300, bounceDamping: 24 }}
-          whileDrag={{ scale: 1.03 }}
-          className="relative z-10 w-full cursor-grab active:cursor-grabbing"
-          style={{ maxWidth: 340, touchAction: 'none' }}
+         
+          className="relative z-10 mt-14 w-full sm:mt-0"
+          style={{ maxWidth: 340 }}
         >
           <Ticket
             variant={variant}
