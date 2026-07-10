@@ -207,8 +207,14 @@ export const Ticket = ({
             </svg>
           </motion.div>
 
-          {/* the ticket — clip-path keeps its cut edge pinned at the slot */}
-          <div className="relative z-10">
+          {/* the ticket — clip-path keeps its cut edge pinned at the slot.
+               isolate + overflow-hidden force WebKit to flatten this subtree:
+               iOS Safari ignores clip-path on elements inside the 3D tilt
+               context (preserve-3d ancestor), so without this the retracting
+               ticket slides up fully visible instead of vanishing into the
+               slot. The overflow clip also hides the card even if clip-path
+               support fails entirely. */}
+          <div className="relative isolate z-10 overflow-hidden">
             <div
               ref={cardRef}
               className={`relative flex w-full flex-col overflow-hidden rounded-lg ${feedClass}`}
