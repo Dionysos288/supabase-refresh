@@ -1,0 +1,119 @@
+@import 'config/tailwind.config.css';
+
+@source '../app/**/*.{tsx,ts,js}';
+@source '../components/**/*.{tsx,ts}';
+@source '../data/**/*.{tsx,ts}';
+@source '../lib/**/*.{tsx,ts}';
+
+@theme inline {
+  --font-sans:
+    var(--font-inter), Inter, Helvetica Neue, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-manrope, var(--font-sans));
+  --font-mono: var(--font-source-code-pro), 'Source Code Pro', ui-monospace, Menlo, monospace;
+}
+
+/* Editorial container — gallery margins, not landing-page margins.
+ * The archive grid and campaign sections sit wide with tight gutters. */
+@utility archive-container {
+  @apply w-full mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10;
+}
+
+/* Viewport-scale display type for section wordmarks (DARK MODE,
+ * THE ARCHIVE, …). Sized by the viewport so it always reads as
+ * typography-as-image, never as a heading that got out of hand. */
+@utility text-display {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 11vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@utility text-display-sm {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Tiny uppercase mono system labels — the only place mono lives now */
+@utility text-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@theme {
+  --animate-marquee: marquee 35s linear infinite;
+
+  /* font sizing and weights optimized for Inter */
+  --text-base: 0.9375rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.375rem;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2.125rem;
+  --text-5xl: 2.875rem;
+  --text-6xl: 3.625rem;
+  --text-7xl: 4.375rem;
+  --text-8xl: 5.875rem;
+  --text-9xl: 7.875rem;
+  --font-weight-normal: 450;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border-default, currentColor);
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-semibold;
+  }
+
+  h1 {
+    @apply font-heading font-medium tracking-normal;
+  }
+}
+
+html {
+  scroll-behavior: smooth !important;
+  font-weight: 450;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  @apply bg-default text-foreground;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #6ee7b7 !important;
+  color: #333 !important;
+}

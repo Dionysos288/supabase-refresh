@@ -1,0 +1,42 @@
+{
+  "name": "realtime",
+  "version": "1.0.0",
+  "description": "Supabase Realtime product page",
+  "private": true,
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "next --port 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "clean": "rimraf node_modules",
+    "pretypecheck": "next typegen",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@heroicons/react": "^1.0.6",
+    "class-variance-authority": "^0.7.1",
+    "framer-motion": "catalog:",
+    "lucide-react": "^0.436.0",
+    "next": "catalog:",
+    "next-themes": "^0.4.6",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-use": "^17.4.0",
+    "shiki": "^4.2.0",
+    "ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.6",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "config": "workspace:*",
+    "eslint": "catalog:",
+    "eslint-config-supabase": "workspace:*",
+    "postcss": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "license": "MIT"
+}

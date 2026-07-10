@@ -1,0 +1,177 @@
+@import 'config/tailwind.config.css';
+
+@source '../app/**/*.{tsx,ts,js}';
+@source '../components/**/*.{tsx,ts}';
+@source '../data/**/*.{tsx,ts}';
+@source '../lib/**/*.{tsx,ts}';
+@source '../../../packages/ui/src/**/*.{tsx,ts,js}';
+
+@theme inline {
+  --font-sans:
+    var(--font-inter), Inter, Helvetica Neue, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-manrope, var(--font-sans));
+  --font-mono: var(--font-source-code-pro), 'Source Code Pro', ui-monospace, Menlo, monospace;
+}
+
+@utility section-container {
+  @apply w-full mx-auto max-w-7xl px-6 lg:px-12 xl:px-24;
+}
+
+/* Stacked avatar fill: card surface underneath, semi-transparent surface-200 on top */
+@utility avatar-fill {
+  background-image: linear-gradient(var(--background-surface-200), var(--background-surface-200));
+  background-color: var(--background-surface-75);
+  box-shadow: 0 0 0 2px var(--background-surface-75);
+}
+
+@utility avatar-fill-header {
+  background-image: linear-gradient(var(--background-surface-200), var(--background-surface-200));
+  background-color: var(--background-surface-100);
+  box-shadow: 0 0 0 1.5px var(--background-surface-100);
+}
+
+@theme {
+  /* font sizing and weights optimized for Inter */
+  --text-base: 0.9375rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.375rem;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2.125rem;
+  --text-5xl: 2.875rem;
+  --text-6xl: 3.625rem;
+  --text-7xl: 4.375rem;
+  --text-8xl: 5.875rem;
+  --text-9xl: 7.875rem;
+  --font-weight-normal: 450;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border-default, currentColor);
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    @apply font-heading font-semibold;
+  }
+
+  h1,
+  .h1 {
+    @apply font-heading font-medium tracking-normal;
+  }
+}
+
+html {
+  scroll-behavior: smooth !important;
+  font-weight: 450;
+}
+
+body {
+  @apply bg-default text-foreground;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ * Typography helpers used by the www chrome (Nav, Footer) and sections
+ */
+.h1:not(.prose *):not(.overwrite),
+.h2:not(.prose *):not(.overwrite),
+.h3:not(.prose *):not(.overwrite),
+.h4:not(.prose *):not(.overwrite),
+.h5:not(.prose *):not(.overwrite),
+.h6:not(.prose *):not(.overwrite) {
+  margin-bottom: 16px;
+}
+
+.h1:not(.prose *):not(.overwrite) {
+  @apply text-4xl;
+}
+
+.h2:not(.prose *):not(.overwrite) {
+  @apply text-4xl;
+}
+
+.h3:not(.prose *):not(.overwrite) {
+  @apply text-2xl;
+}
+
+.h4:not(.prose *):not(.overwrite) {
+  @apply text-xl;
+}
+
+.h5:not(.prose *):not(.overwrite) {
+  @apply text-xl;
+}
+
+h1:not(.overwrite),
+h2:not(.overwrite),
+h3:not(.overwrite),
+h4:not(.overwrite),
+h5:not(.overwrite),
+h6:not(.overwrite) {
+  scroll-margin-top: 90px;
+}
+
+.h1:not(.prose *):not(.overwrite),
+.h2:not(.prose *):not(.overwrite) {
+  line-height: 1.2 !important;
+}
+
+.label:not(.prose *):not(.overwrite) {
+  @apply text-xs font-mono uppercase text-foreground-lighter tracking-wider;
+}
+
+@media only screen and (max-width: 960px) {
+  .h1:not(.prose *):not(.overwrite) {
+    font-size: 2.2rem !important;
+  }
+  .h2:not(.prose *):not(.overwrite) {
+    font-size: 2rem !important;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .h1:not(.prose *):not(.overwrite) {
+    font-size: 2rem !important;
+  }
+  .h2:not(.prose *):not(.overwrite) {
+    font-size: 1.8rem !important;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .h1:not(.prose *):not(.overwrite) {
+    font-size: 1.8rem !important;
+  }
+  .h2:not(.prose *):not(.overwrite) {
+    font-size: 1.6rem !important;
+  }
+}
+
+.p:not(.prose *):not(.overwrite) {
+  @apply text-foreground-light;
+  margin-bottom: 16px;
+}
+
+.small:not(.prose *):not(.overwrite) {
+  @apply text-foreground-lighter text-xs;
+}
+
+::selection {
+  background-color: #6ee7b7 !important;
+  color: #333 !important;
+}

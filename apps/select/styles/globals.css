@@ -1,0 +1,136 @@
+@import 'config/tailwind.config.css';
+
+@source '../app/**/*.{tsx,ts,js}';
+@source '../components/**/*.{tsx,ts}';
+
+@theme inline {
+  --font-sans:
+    var(--font-inter), Inter, Helvetica Neue, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Newsreader, Georgia, 'Times New Roman', serif;
+  --font-mono: var(--font-source-code-pro), 'Source Code Pro', ui-monospace, Menlo, monospace;
+}
+
+@theme {
+  /* Select26 palette */
+  --color-paper: #f4f1ea;
+  --color-pine: #0e4632;
+  --color-pine-deep: #0a3325;
+  --color-brand-bolt: #3ecf8e;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border-default, currentColor);
+  }
+}
+
+html {
+  font-weight: 450;
+}
+
+body {
+  background-color: #0b0c0a;
+  color: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #3ecf8e !important;
+  color: #0a0a0a !important;
+}
+
+/* dot-matrix printer reveal for the ticket's ASCII art */
+@keyframes print-rows {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+  }
+}
+
+.animate-print {
+  animation: print-rows 1.3s steps(32, end) both;
+}
+
+/* reprint mechanics — the ticket passes through a physical slot.
+   clip-path insets the top by exactly the translate distance, so the cut
+   edge stays pinned at y=0 (hidden under the slot bezel) instead of the
+   card simply cropping at a container boundary. */
+@keyframes ticket-retract {
+  from {
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    transform: translateY(-101%);
+    clip-path: inset(101% 0 0 0);
+  }
+}
+
+.animate-retract {
+  /* 120ms delay lets the portal finish opening before the paper moves */
+  animation: ticket-retract 0.38s cubic-bezier(0.5, 0, 0.85, 0.4) 0.12s both;
+}
+
+@keyframes ticket-feed {
+  from {
+    transform: translateY(-101%);
+    clip-path: inset(101% 0 0 0);
+  }
+  to {
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.animate-feed {
+  animation: ticket-feed 1.2s steps(24, end) both;
+}
+
+/* soft drop shadow following the notched ticket silhouette; deepens on hover */
+.ticket-shadow {
+  filter: drop-shadow(0 22px 36px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+  transition: filter 0.35s ease;
+}
+
+.group:hover .ticket-shadow {
+  filter: drop-shadow(0 34px 58px rgba(0, 0, 0, 0.62))
+    drop-shadow(0 6px 24px rgba(62, 207, 142, 0.09));
+}
+
+/* character jitter inside the torch beam */
+@keyframes scramble-flicker {
+  0%,
+  49% {
+    opacity: 0;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-scramble {
+  animation: scramble-flicker 0.22s steps(2, end) infinite;
+}
+
+/* Reduced motion: skip the printer travel, keep the state changes readable */
+@media (prefers-reduced-motion: reduce) {
+  .animate-print,
+  .animate-retract,
+  .animate-feed {
+    animation-duration: 0.01ms;
+    animation-delay: 0ms;
+  }
+
+  .animate-scramble {
+    animation: none;
+  }
+}

@@ -1,0 +1,57 @@
+import '../styles/globals.css'
+
+import { inter, manrope, sourceCodePro } from '@/fonts'
+import type { Metadata, Viewport } from 'next'
+
+import Providers from './providers'
+
+const site_title = 'Supabase | The Open Source Firebase Alternative'
+const description =
+  'Build production-grade applications with a Postgres database, Authentication, instant APIs, Realtime, Functions, Storage and Vector embeddings. Start for free.'
+
+export const metadata: Metadata = {
+  title: site_title,
+  description,
+  openGraph: {
+    type: 'website',
+    url: 'https://supabase.com/',
+    siteName: 'Supabase',
+    images: [
+      {
+        url: 'https://supabase.com/images/og/supabase-og.png',
+        width: 800,
+        height: 600,
+        alt: 'Supabase Og Image',
+      },
+    ],
+  },
+  twitter: {
+    creator: '@supabase',
+    site: '@supabase',
+    card: 'summary_large_image',
+  },
+  icons: {
+    icon: '/favicon/favicon.ico',
+    shortcut: '/favicon/favicon.ico',
+    apple: '/favicon/favicon.ico',
+  },
+}
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${inter.variable} ${sourceCodePro.variable}`}
+    >
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}

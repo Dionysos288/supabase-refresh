@@ -1,0 +1,19 @@
+{
+  "name": "supabase-refresh",
+  "private": true,
+  "description": "Supabase marketing surfaces: Realtime product page, swag store, and Select ticket page",
+  "packageManager": "pnpm@10.24.0",
+  "engines": {
+    "pnpm": "10.24",
+    "node": ">=22"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev:realtime": "pnpm --filter realtime dev",
+    "dev:swag": "pnpm --filter swag dev",
+    "dev:select": "pnpm --filter select dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint"
+  }
+}

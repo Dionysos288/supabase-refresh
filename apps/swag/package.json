@@ -1,0 +1,35 @@
+{
+  "name": "swag",
+  "version": "1.0.0",
+  "description": "Supabase swag store",
+  "private": true,
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "next --port 3002",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "clean": "rimraf node_modules",
+    "pretypecheck": "next typegen",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "framer-motion": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "config": "workspace:*",
+    "eslint": "catalog:",
+    "eslint-config-supabase": "workspace:*",
+    "postcss": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "select",
+  "version": "1.0.0",
+  "description": "Supabase Select conference ticket page",
+  "private": true,
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "next --port 3003",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "clean": "rimraf node_modules",
+    "pretypecheck": "next typegen",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "framer-motion": "catalog:",
+    "html-to-image": "^1.11.13",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "config": "workspace:*",
+    "eslint": "catalog:",
+    "eslint-config-supabase": "workspace:*",
+    "postcss": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "license": "MIT"
+}
